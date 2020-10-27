@@ -16,6 +16,12 @@ import getDragImpact from '../../get-drag-impact';
 import { add, subtract } from '../../position';
 import recomputePlaceholders from '../../recompute-placeholders';
 
+// fixme Recalculate draggable position after dimensions are captured.
+// I know global variables are bad, but I don't know how to make it right.
+export const GLOBAL_DRAG_OFFSET_HOLDER = {
+  value: { x: 0, y: 0 },
+};
+
 type Args = {|
   state: StateWhenUpdatesAllowed,
   clientSelection?: Position,
@@ -43,9 +49,9 @@ export default ({
   const clientSelection: Position =
     forcedClientSelection || state.current.client.selection;
 
-  const offset: Position = subtract(
-    clientSelection,
-    state.initial.client.selection,
+  const offset: Position = add(
+    subtract(clientSelection, state.initial.client.selection),
+    GLOBAL_DRAG_OFFSET_HOLDER.value,
   );
 
   const client: ClientPositions = {

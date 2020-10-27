@@ -57,3 +57,5 @@ export type {
   NotDraggingStyle,
   ChildrenFn as DraggableChildrenFn,
 } from './view/draggable/draggable-types';
+
+export { GLOBAL_DRAG_OFFSET_HOLDER } from './state/post-reducer/when-moving/update';

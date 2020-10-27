@@ -21,11 +21,13 @@ import type { Action } from './store-types';
 import type { PublicResult as MoveInDirectionResult } from './move-in-direction/move-in-direction-types';
 import scrollDroppable from './droppable/scroll-droppable';
 import moveInDirection from './move-in-direction';
-import { add, isEqual, origin } from './position';
+import { add, isEqual } from './position';
 import scrollViewport from './scroll-viewport';
 import isMovementAllowed from './is-movement-allowed';
 import { toDroppableList } from './dimension-structures';
-import update from './post-reducer/when-moving/update';
+import update, {
+  GLOBAL_DRAG_OFFSET_HOLDER,
+} from './post-reducer/when-moving/update';
 import refreshSnap from './post-reducer/when-moving/refresh-snap';
 import getLiftEffect from './get-lift-effect';
 import patchDimensionMap from './patch-dimension-map';
@@ -99,7 +101,7 @@ export default (state: State = idle, action: Action): State => {
     const client: ClientPositions = {
       selection: clientSelection,
       borderBoxCenter: draggable.client.borderBox.center,
-      offset: origin,
+      offset: GLOBAL_DRAG_OFFSET_HOLDER.value,
     };
 
     const initial: DragPositions = {
